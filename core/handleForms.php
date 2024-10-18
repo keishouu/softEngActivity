@@ -3,14 +3,13 @@
 require_once 'dbconfig.php'; 
 require_once 'models.php';
 
-if (isset($_POST['insertNewStudentBtn'])) {
+if (isset($_POST['insertNewDevBtn'])) {
 	$firstName = trim($_POST['firstName']);
 	$lastName = trim($_POST['lastName']);
 	$email = trim($_POST['email']);
-	$password = trim($_POST['password']);
 	$expLevel = trim($_POST['expLevel']);
-	$prefEngine = trim($_POST['preparedEngine']);
-	$progLanguage = trim($_POST['proglanguage']);
+	$prefEngine = trim($_POST['prefEngine']);
+	$progLanguage = trim($_POST['progLanguage']);
     $focusPlatform = trim($_POST['focusPlatform']);
     $collabExp = trim($_POST['collabExp']);
     $motivation = trim($_POST['motivation']);
@@ -18,9 +17,9 @@ if (isset($_POST['insertNewStudentBtn'])) {
 
 
 
-	if (!empty($firstName) && !empty($lastName) && !empty($email) && !empty($password) && !empty($expLevel)  && !empty($prefEngine)  && !empty($progLanguage) && !empty($focusPlatform) && !empty($collabExp) && !empty($motivation) && !empty($favGame)) {
-			$query = insertIntoApplicantRecord($pdo, $firstName, $lastName, 
-			$email, $password, $expLevel, $prefEngine, $progLanguage, $focusPlatform, $collabExp, $motivation, $favGame);
+	if (!empty($firstName) && !empty($lastName) && !empty($email) && !empty($expLevel)  && !empty($prefEngine)  && !empty($progLanguage) && !empty($focusPlatform) && !empty($collabExp) && !empty($motivation) && !empty($favGame)) {
+			$query = insertIntoApplicantRecords($pdo, $firstName, $lastName, 
+			$email, $expLevel, $prefEngine, $progLanguage, $focusPlatform, $collabExp, $motivation, $favGame);
 
 		if ($query) {
 			header("Location: ../index.php");
@@ -39,26 +38,26 @@ if (isset($_POST['insertNewStudentBtn'])) {
 
 
 if (isset($_POST['editDetailsBtn'])) {
-	$devID = $_GET['developer_id'];
+
+	$Developer_id = isset($_POST['Developer_id']) ? $_POST["Developer_id"] : '';
 	$firstName = trim($_POST['firstName']);
 	$lastName = trim($_POST['lastName']);
 	$email = trim($_POST['email']);
-	$password = trim($_POST['password']);
 	$expLevel = trim($_POST['expLevel']);
-	$prefEngine = trim($_POST['preparedEngine']);
-	$progLanguage = trim($_POST['proglanguage']);
+	$prefEngine = trim($_POST['prefEngine']);
+	$progLanguage = trim($_POST['progLanguage']);
     $focusPlatform = trim($_POST['focusPlatform']);
     $collabExp = trim($_POST['collabExp']);
     $motivation = trim($_POST['motivation']);
     $favGame = trim($_POST['favGame']);
 
-	if (!empty($firstName) && !empty($lastName) && !empty($email) && !empty($password) && !empty($expLevel)  && !empty($prefEngine)  && !empty($progLanguage) && !empty($focusPlatform) && !empty($collabExp) && !empty($motivation) && !empty($favGame)) {
+	if (!empty($Developer_id) && !empty($firstName) && !empty($lastName) && !empty($email) && !empty($expLevel)  && !empty($prefEngine)  && !empty($progLanguage) && !empty($focusPlatform) && !empty($collabExp) && !empty($motivation) && !empty($favGame)) {
 
-		$query = updateDetails($pdo, $firstName, $lastName, 
-        $email, $password, $expLevel, $prefEngine, $progLanguage, $focusPlatform, $collabExp, $motivation, $favGame);
+		$query = updateADeveloper($pdo, $Developer_id, $firstName, $lastName, $email, $expLevel, $prefEngine, $progLanguage, $focusPlatform, $collabExp, $motivation, $favGame);
 
 		if ($query) {
 			header("Location: ../index.php");
+			exit;
 		}
 		else {
 			echo "Update failed";
@@ -76,9 +75,9 @@ if (isset($_POST['editDetailsBtn'])) {
 
 
 
-if (isset($_POST['deleteAccountBtn'])) {
+if (isset($_POST['deleteDevBtn'])) {
 
-	$query = deleteAccount($pdo, $_GET['devID']);
+	$query = deleteAccount($pdo, $_GET['Developer_id']);
 
 	if ($query) {
 		header("Location: ../index.php");
